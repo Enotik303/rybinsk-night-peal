@@ -61,63 +61,63 @@ void equalityComparesStrokesNotAddresses() {
     EXPECT(!(shorter == left));
 }
 
-void plusDoesNotTouchOperands() {
-    const Peal left = makePeal({Stroke{1, 2}});
-    const Peal right = makePeal({Stroke{3, 4}, Stroke{5, 6}});
-    const Peal empty;
+void plusPlaysTheSmallerBellFirst() {
+    const Peal left = makePeal({Stroke{5, 1}, Stroke{1, 4}});
+    const Peal right = makePeal({Stroke{3, 2}});
     const Peal sum = left + right;
-    EXPECT_EQ(left.size(), 1);
-    EXPECT_EQ(right.size(), 2);
-    EXPECT_EQ(sum.size(), 3);
-    EXPECT_EQ(sum[0].bell, 1);
-    EXPECT_EQ(sum[0].beats, 2);
-    EXPECT_EQ(sum[1].bell, 3);
-    EXPECT_EQ(sum[2].bell, 5);
-    EXPECT_EQ(sum[2].beats, 6);
+    expectStrokes(left, {Stroke{5, 1}, Stroke{1, 4}});
+    expectStrokes(right, {Stroke{3, 2}});
+    // Пара решается на своём месте. Хвост (1, 4) не уезжает в начало.
+    expectStrokes(sum, {Stroke{3, 2}, Stroke{5, 1}, Stroke{1, 4}});
+    EXPECT_EQ(static_cast<int>(sum), 7);
+}
+
+void plusKeepsTheLongerStrokeOfTheSameBell() {
+    const Peal left = makePeal({Stroke{4, 2}, Stroke{6, 8}});
+    const Peal right = makePeal({Stroke{4, 7}, Stroke{6, 8}});
+    const Peal sum = left + right;
+    expectStrokes(sum, {Stroke{4, 7}, Stroke{6, 8}});
+    expectStrokes(left, {Stroke{4, 2}, Stroke{6, 8}});
+}
+
+void plusKeepsTheTailAndDoesNotJudgeBells() {
+    const Peal left = makePeal({Stroke{9, 1}});
+    const Peal right = makePeal({Stroke{1, 2}, Stroke{3, 4}});
+    const Peal sum = left + right;
+    expectStrokes(sum, {Stroke{1, 2}, Stroke{9, 1}, Stroke{3, 4}});
+
+    const Peal empty;
     EXPECT(left + empty == left);
-    EXPECT(empty + left == left);
+    EXPECT(empty + right == right);
     EXPECT(empty + empty == empty);
-    EXPECT_EQ(static_cast<int>(sum), 12);
+}
+
+void joiningAPealWithItselfDoesNotGrow() {
+    Peal peal = makePeal({Stroke{2, 5}, Stroke{1, 3}, Stroke{2, 5}});
+    const Peal joined = peal + peal;
+    EXPECT(joined == peal);
+    peal += peal;
+    expectStrokes(peal, {Stroke{2, 5}, Stroke{1, 3}, Stroke{2, 5}});
+    Peal& same = peal;
+    peal += same;
+    EXPECT_EQ(peal.size(), 3);
+    EXPECT_EQ(static_cast<int>(peal), 13);
 }
 
 void compoundAssignChains() {
-    Peal first = makePeal({Stroke{1, 1}});
-    Peal second = makePeal({Stroke{2, 1}});
-    Peal third = makePeal({Stroke{3, 1}});
-    first += second += third;
-    EXPECT_EQ(third.size(), 1);
-    EXPECT_EQ(second.size(), 2);
-    EXPECT_EQ(second[0].bell, 2);
-    EXPECT_EQ(second[1].bell, 3);
-    EXPECT_EQ(first.size(), 3);
-    EXPECT_EQ(first[0].bell, 1);
-    EXPECT_EQ(first[1].bell, 2);
-    EXPECT_EQ(first[2].bell, 3);
+    Peal first = makePeal({Stroke{5, 1}});
+    Peal second = makePeal({Stroke{4, 2}});
+    Peal third = makePeal({Stroke{4, 9}});
+    Peal& returned = (first += second += third);
+    EXPECT(&returned == &first);
+    expectStrokes(third, {Stroke{4, 9}});
+    expectStrokes(second, {Stroke{4, 9}});
+    expectStrokes(first, {Stroke{4, 9}, Stroke{5, 1}});
 
     const int before = static_cast<int>(first);
     first += Peal();
     EXPECT_EQ(static_cast<int>(first), before);
-    EXPECT_EQ(first.size(), 3);
-}
-
-void selfAppendDoublesThePeal() {
-    Peal peal = makePeal({Stroke{1, 2}, Stroke{3, 4}});
-    peal += peal;
-    EXPECT_EQ(peal.size(), 4);
-    EXPECT_EQ(peal[0].bell, 1);
-    EXPECT_EQ(peal[0].beats, 2);
-    EXPECT_EQ(peal[1].bell, 3);
-    EXPECT_EQ(peal[2].bell, 1);
-    EXPECT_EQ(peal[2].beats, 2);
-    EXPECT_EQ(peal[3].bell, 3);
-    EXPECT_EQ(peal[3].beats, 4);
-    EXPECT_EQ(static_cast<int>(peal), 12);
-
-    Peal& same = peal;
-    peal += same;
-    EXPECT_EQ(peal.size(), 8);
-    EXPECT_EQ(peal[4].bell, 1);
-    EXPECT_EQ(peal[7].beats, 4);
+    EXPECT_EQ(first.size(), 2);
 }
 
 }  // namespace
@@ -127,7 +127,9 @@ void registerOpsTests(std::vector<rybinsk_test::TestCase>& tests) {
     tests.push_back({"ops / плохой индекс не меняет партию", badIndexDoesNotChangePeal});
     tests.push_back({"ops / константный перезвон читается", constPealIsReadable});
     tests.push_back({"ops / равны удары, а не адреса", equalityComparesStrokesNotAddresses});
-    tests.push_back({"ops / сложение не портит слагаемые", plusDoesNotTouchOperands});
-    tests.push_back({"ops / составное присваивание цепочкой", compoundAssignChains});
-    tests.push_back({"ops / партия, дописанная к себе, удваивается", selfAppendDoublesThePeal});
+    tests.push_back({"ops / в паре сначала меньший колокол, хвост не сортируется", plusPlaysTheSmallerBellFirst});
+    tests.push_back({"ops / один колокол оставляет длинный удар", plusKeepsTheLongerStrokeOfTheSameBell});
+    tests.push_back({"ops / хвост дописывается, чужой номер не бракуется", plusKeepsTheTailAndDoesNotJudgeBells});
+    tests.push_back({"ops / листок, сложенный сам с собой, не растёт", joiningAPealWithItselfDoesNotGrow});
+    tests.push_back({"ops / цепочка += собирается справа и возвращает левый листок", compoundAssignChains});
 }

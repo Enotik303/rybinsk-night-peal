@@ -39,10 +39,10 @@ public:
     Stroke& operator[](int index);
     const Stroke& operator[](int index) const;
 
-    // Новый перезвон: удары левого, затем удары правого. Слагаемые не меняются.
+    // Сложить два листка вперебор. Слагаемые не меняются. Правило — в README.
     Peal operator+(const Peal& other) const;
 
-    // Дописать other в конец. Вернуть *this.
+    // Заменить себя на *this + other. Вернуть *this.
     Peal& operator+=(const Peal& other);
 
     [[nodiscard]] bool operator==(const Peal& other) const;

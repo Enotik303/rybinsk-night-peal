@@ -2,7 +2,7 @@
 
 namespace rybinsk {
 
-Peal ringNight(const std::vector<Peal>&) {
+Night ringNight(const std::vector<Peal>&) {
     throw std::logic_error("ещё не написано");
 }
 

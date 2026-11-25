@@ -7,6 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_library(rybinsk
     src/peal.cpp
+    src/voice.cpp
     src/night.cpp
 )
 target_include_directories(rybinsk PUBLIC include)
@@ -18,6 +19,7 @@ add_executable(rybinsk_tests
     tests/test_life.cpp
     tests/test_assign.cpp
     tests/test_ops.cpp
+    tests/test_voice.cpp
     tests/test_night.cpp
 )
 target_include_directories(rybinsk_tests PRIVATE tests)
