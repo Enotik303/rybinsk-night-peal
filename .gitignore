@@ -8,7 +8,7 @@ Testing/
 *.o
 *.obj
 *.a
-rostov_tests
+rybinsk_tests
 .cache/
 .vs/
 .idea/

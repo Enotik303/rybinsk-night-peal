@@ -9,7 +9,7 @@ configure:
 
 test: configure
 	cmake --build $(BUILD) -j
-	./$(BUILD)/rostov_tests
+	./$(BUILD)/rybinsk_tests
 
 clean:
 	rm -rf $(BUILD)

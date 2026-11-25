@@ -1,9 +1,9 @@
-#include "rostov/night.hpp"
+#include "rybinsk/night.hpp"
 
-namespace rostov {
+namespace rybinsk {
 
 Peal ringNight(const std::vector<Peal>&) {
     throw std::logic_error("ещё не написано");
 }
 
-}  // namespace rostov
+}  // namespace rybinsk

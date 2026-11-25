@@ -1,13 +1,13 @@
 #include "harness.hpp"
 #include "make_peal.hpp"
 
-#include "rostov/peal.hpp"
+#include "rybinsk/peal.hpp"
 
 #include <utility>
 
-using rostov::Peal;
-using rostov::PealError;
-using rostov::Stroke;
+using rybinsk::Peal;
+using rybinsk::PealError;
+using rybinsk::Stroke;
 
 namespace {
 
@@ -92,7 +92,7 @@ void moveTakesMemoryAndLeavesSourceEmpty() {
 
 }  // namespace
 
-void registerLifeTests(std::vector<rostov_test::TestCase>& tests) {
+void registerLifeTests(std::vector<rybinsk_test::TestCase>& tests) {
     tests.push_back({"life / пустой перезвон ничего не занимает", emptyPealTakesNothing});
     tests.push_back({"life / Peal(n) заполнен нулями", countedPealIsZeroFilled});
     tests.push_back({"life / отрицательная длина — ошибка", negativeCountThrowsBeforeAllocation});

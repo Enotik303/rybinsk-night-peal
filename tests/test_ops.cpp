@@ -1,11 +1,11 @@
 #include "harness.hpp"
 #include "make_peal.hpp"
 
-#include "rostov/peal.hpp"
+#include "rybinsk/peal.hpp"
 
-using rostov::Peal;
-using rostov::PealError;
-using rostov::Stroke;
+using rybinsk::Peal;
+using rybinsk::PealError;
+using rybinsk::Stroke;
 
 namespace {
 
@@ -122,7 +122,7 @@ void selfAppendDoublesThePeal() {
 
 }  // namespace
 
-void registerOpsTests(std::vector<rostov_test::TestCase>& tests) {
+void registerOpsTests(std::vector<rybinsk_test::TestCase>& tests) {
     tests.push_back({"ops / индекс читает и пишет удар", indexReadsAndWrites});
     tests.push_back({"ops / плохой индекс не меняет партию", badIndexDoesNotChangePeal});
     tests.push_back({"ops / константный перезвон читается", constPealIsReadable});

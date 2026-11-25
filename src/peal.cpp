@@ -1,6 +1,6 @@
-#include "rostov/peal.hpp"
+#include "rybinsk/peal.hpp"
 
-namespace rostov {
+namespace rybinsk {
 namespace {
 
 [[noreturn]] void notReady() {
@@ -77,4 +77,4 @@ Peal::operator int() const {
     notReady();
 }
 
-}  // namespace rostov
+}  // namespace rybinsk

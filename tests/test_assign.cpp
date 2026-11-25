@@ -1,12 +1,12 @@
 #include "harness.hpp"
 #include "make_peal.hpp"
 
-#include "rostov/peal.hpp"
+#include "rybinsk/peal.hpp"
 
 #include <utility>
 
-using rostov::Peal;
-using rostov::Stroke;
+using rybinsk::Peal;
+using rybinsk::Stroke;
 
 namespace {
 
@@ -77,7 +77,7 @@ void movedFromCanBeAssignedAgain() {
 
 }  // namespace
 
-void registerAssignTests(std::vector<rostov_test::TestCase>& tests) {
+void registerAssignTests(std::vector<rybinsk_test::TestCase>& tests) {
     tests.push_back({"assign / присваивание не делит память", copyAssignDoesNotShareMemory});
     tests.push_back({"assign / присваивание самому себе", selfCopyAssignKeepsThePeal});
     tests.push_back({"assign / перемещение опустошает источник", moveAssignEmptiesSource});

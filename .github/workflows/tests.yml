@@ -16,4 +16,4 @@ jobs:
       - name: Build
         run: cmake --build build -j
       - name: Test
-        run: ./build/rostov_tests
+        run: ./build/rybinsk_tests

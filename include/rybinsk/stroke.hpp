@@ -1,6 +1,6 @@
 #pragma once
 
-namespace rostov {
+namespace rybinsk {
 
 // Один удар. Это агрегат: конструкторов нет, тесты собирают его скобками.
 // bell — номер колокола, beats — сколько долей он звучит.
@@ -10,4 +10,4 @@ struct Stroke {
     int beats;
 };
 
-}  // namespace rostov
+}  // namespace rybinsk

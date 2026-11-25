@@ -1,10 +1,10 @@
 #pragma once
 
-#include "rostov/stroke.hpp"
+#include "rybinsk/stroke.hpp"
 
 #include <stdexcept>
 
-namespace rostov {
+namespace rybinsk {
 
 class PealError : public std::runtime_error {
 public:
@@ -56,4 +56,4 @@ private:
     int count_ = 0;
 };
 
-}  // namespace rostov
+}  // namespace rybinsk

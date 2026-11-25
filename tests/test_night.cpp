@@ -1,14 +1,14 @@
 #include "harness.hpp"
 #include "make_peal.hpp"
 
-#include "rostov/night.hpp"
-#include "rostov/peal.hpp"
+#include "rybinsk/night.hpp"
+#include "rybinsk/peal.hpp"
 
 #include <vector>
 
-using rostov::Peal;
-using rostov::Stroke;
-using rostov::ringNight;
+using rybinsk::Peal;
+using rybinsk::Stroke;
+using rybinsk::ringNight;
 
 namespace {
 
@@ -78,7 +78,7 @@ void nightOfEmptiesIsEmpty() {
 
 }  // namespace
 
-void registerNightTests(std::vector<rostov_test::TestCase>& tests) {
+void registerNightTests(std::vector<rybinsk_test::TestCase>& tests) {
     tests.push_back({"night / пустая партия не разрывает повтор", emptyPartDoesNotBreakARepeat});
     tests.push_back({"night / повтор — это соседняя партия, не весь перезвон", repeatIsThePreviousPartNotTheWholeNight});
     tests.push_back({"night / ночь не портит входной список", nightDoesNotChangeTheInput});

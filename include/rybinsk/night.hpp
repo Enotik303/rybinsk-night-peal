@@ -1,10 +1,10 @@
 #pragma once
 
-#include "rostov/peal.hpp"
+#include "rybinsk/peal.hpp"
 
 #include <vector>
 
-namespace rostov {
+namespace rybinsk {
 
 // Собрать ночь из кусков в порядке списка.
 // Пустой кусок пропускается и не разрывает соседство.
@@ -12,4 +12,4 @@ namespace rostov {
 // Входной список не меняется. Подробности и примеры — в README.
 [[nodiscard]] Peal ringNight(const std::vector<Peal>& parts);
 
-}  // namespace rostov
+}  // namespace rybinsk

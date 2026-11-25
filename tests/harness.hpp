@@ -7,7 +7,7 @@
 #include <utility>
 #include <vector>
 
-namespace rostov_test {
+namespace rybinsk_test {
 
 struct Failure : std::runtime_error {
     using std::runtime_error::runtime_error;
@@ -101,12 +101,12 @@ inline int runAll(const std::vector<TestCase>& tests) {
     return failed == 0 ? 0 : 1;
 }
 
-}  // namespace rostov_test
+}  // namespace rybinsk_test
 
 #define EXPECT(condition)                                                                          \
     do {                                                                                           \
         if (!(condition)) {                                                                        \
-            throw rostov_test::Failure(                                                            \
+            throw rybinsk_test::Failure(                                                            \
                 std::string(__FILE__) + ":" + std::to_string(__LINE__) +                           \
                 "  условие не выполнено: " #condition                                              \
             );                                                                                     \
@@ -114,23 +114,23 @@ inline int runAll(const std::vector<TestCase>& tests) {
     } while (0)
 
 #define EXPECT_EQ(actual, expected)                                                                \
-    rostov_test::expectEq((actual), (expected), #actual " == " #expected, __FILE__, __LINE__)
+    rybinsk_test::expectEq((actual), (expected), #actual " == " #expected, __FILE__, __LINE__)
 
 #define EXPECT_THROW(expression, exception_type)                                                   \
     do {                                                                                           \
-        bool rostov_threw = false;                                                                 \
+        bool rybinsk_threw = false;                                                                 \
         try {                                                                                      \
             expression;                                                                            \
         } catch (const exception_type&) {                                                          \
-            rostov_threw = true;                                                                   \
-        } catch (const std::exception& rostov_ex) {                                                \
-            throw rostov_test::Failure(                                                            \
+            rybinsk_threw = true;                                                                   \
+        } catch (const std::exception& rybinsk_ex) {                                                \
+            throw rybinsk_test::Failure(                                                            \
                 std::string(__FILE__) + ":" + std::to_string(__LINE__) +                           \
-                "  ждали " #exception_type ", а пришло: " + rostov_ex.what()                       \
+                "  ждали " #exception_type ", а пришло: " + rybinsk_ex.what()                       \
             );                                                                                     \
         }                                                                                          \
-        if (!rostov_threw) {                                                                       \
-            throw rostov_test::Failure(                                                            \
+        if (!rybinsk_threw) {                                                                       \
+            throw rybinsk_test::Failure(                                                            \
                 std::string(__FILE__) + ":" + std::to_string(__LINE__) +                           \
                 "  ждали " #exception_type ", а исключения не было"                                \
             );                                                                                     \
