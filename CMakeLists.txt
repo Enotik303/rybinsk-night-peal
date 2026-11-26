@@ -11,8 +11,6 @@ add_library(rybinsk
     src/night.cpp
 )
 target_include_directories(rybinsk PUBLIC include)
-target_compile_options(rybinsk PRIVATE -Wall -Wextra -Wpedantic -fsanitize=address)
-target_link_options(rybinsk PUBLIC -fsanitize=address)
 
 add_executable(rybinsk_tests
     tests/main.cpp
@@ -24,4 +22,12 @@ add_executable(rybinsk_tests
 )
 target_include_directories(rybinsk_tests PRIVATE tests)
 target_link_libraries(rybinsk_tests PRIVATE rybinsk)
-target_compile_options(rybinsk_tests PRIVATE -Wall -Wextra -Wpedantic -fsanitize=address)
+
+if(MSVC)
+    target_compile_options(rybinsk PRIVATE /W4)
+    target_compile_options(rybinsk_tests PRIVATE /W4)
+else()
+    target_compile_options(rybinsk PRIVATE -Wall -Wextra -Wpedantic -fsanitize=address)
+    target_link_options(rybinsk PUBLIC -fsanitize=address)
+    target_compile_options(rybinsk_tests PRIVATE -Wall -Wextra -Wpedantic -fsanitize=address)
+endif()
